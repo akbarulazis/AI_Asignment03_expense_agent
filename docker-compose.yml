@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      - POSTGRES_USER=anvia
+      - POSTGRES_PASSWORD=anvia
+      - POSTGRES_DB=anvia
+    ports:
+      - "5544:5432"
+
+  adminer:
+    image: adminer
+    ports:
+      - "8085:8080"

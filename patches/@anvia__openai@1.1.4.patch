@@ -1,0 +1,22 @@
+diff --git a/dist/index.js b/dist/index.js
+index 0902e2d3ed5b80dfef27127e4959d128e52d9b39..2bce72feac3a8edc408da057d34c2162df3b11b2 100644
+--- a/dist/index.js
++++ b/dist/index.js	
+@@ -1466,7 +1466,7 @@ function fromOpenAIStreamEvent(event) {
+   }
+   if (event.type === "response.function_call_arguments.done") {
+     const id = requiredToolCallString2(event.item_id);
+-    const name = requiredToolCallString2(event.name, id);
++    const name = event.name === void 0 ? void 0 : requiredToolCallString2(event.name, id);
+     const argumentsText = requiredTerminalArguments(id, event.arguments);
+     parseToolArguments(id, argumentsText);
+     return toolCallDelta2(id, {
+@@ -1617,7 +1617,7 @@ var OpenAIResponsesStreamState = class {
+     }
+     if (event.type === "response.function_call_arguments.done") {
+       const id = requiredToolCallString2(event.item_id);
+-      const name = requiredToolCallString2(event.name, id);
++      const name = event.name === void 0 ? void 0 : requiredToolCallString2(event.name, id);
+       this.acceptToolCall(id, name);
+       this.markArgumentsDone(id);
+     } else if (event.type === "response.output_item.done" && isPlainObject(event.item) && event.item.type === "function_call") {

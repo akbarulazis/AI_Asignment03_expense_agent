@@ -1,0 +1,49 @@
+diff --git a/dist/index.js b/dist/index.js
+index e89fe38e6059f45a34484a18013aa2712f3cf54a..51ef2ee58bba07ab06e0e0e7ddc9dc74ffc9f32c 100644
+--- a/dist/index.js
++++ b/dist/index.js	
+@@ -27660,13 +27660,12 @@ var SqliteSessionStore = class {
+   db;
+   listSessions(options) {
+     const db = this.database();
+-    const agentClause = options.agentId === void 0 ? "" : "WHERE s.agent_id = $agentId";
+     const rows = db.prepare(
+       `SELECT s.id, s.agent_id, s.title, s.metadata_json, s.created_at, s.updated_at,
+                 COUNT(m.message_index) AS message_count
+          FROM anvia_studio_sessions s
+          LEFT JOIN anvia_studio_session_messages m ON m.session_id = s.id
+-         ${agentClause}
++         WHERE $agentId IS NULL OR s.agent_id = $agentId
+          GROUP BY s.id, s.agent_id, s.title, s.metadata_json, s.created_at, s.updated_at
+          ORDER BY s.updated_at DESC
+          LIMIT $limit`
+@@ -27995,13 +27994,12 @@ var SqliteSessionStore = class {
+   }
+   listSessionLogs(options) {
+     const db = this.database();
+-    const afterClause = options.after === void 0 ? "" : "AND sequence > $after";
+     const rows = db.prepare(
+       `SELECT id, session_id, run_id, sequence, timestamp, level, category, event, message,
+                 metadata_json
+          FROM anvia_studio_session_logs
+          WHERE session_id = $sessionId
+-         ${afterClause}
++         AND ($after IS NULL OR sequence > $after)
+          ORDER BY sequence ASC
+          LIMIT $limit`
+     ).all({
+@@ -28076,13 +28074,12 @@ var SqliteSessionStore = class {
+   }
+   listPipelineLogs(options) {
+     const db = this.database();
+-    const afterClause = options.after === void 0 ? "" : "AND sequence > $after";
+     const rows = db.prepare(
+       `SELECT id, pipeline_id, run_id, sequence, timestamp, level, category, event, message,
+                 metadata_json
+          FROM anvia_studio_pipeline_logs
+          WHERE pipeline_id = $pipelineId
+-         ${afterClause}
++         AND ($after IS NULL OR sequence > $after)
+          ORDER BY sequence ASC
+          LIMIT $limit`
+     ).all({

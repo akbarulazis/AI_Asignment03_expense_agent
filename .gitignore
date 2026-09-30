@@ -1,0 +1,12 @@
+node_modules/
+.env
+.env.*
+!.env.example
+
+# Anvia Studio's local session database
+.anvia/
+
+# build / tooling output
+dist/
+*.tsbuildinfo
+.DS_Store

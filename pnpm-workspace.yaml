@@ -1,0 +1,14 @@
+packages: []
+allowBuilds:
+  esbuild: true
+  msgpackr-extract: true
+  workerd: true
+minimumReleaseAgeExclude:
+  - "@anvia/*"
+overrides:
+  "alchemy@2.0.0-beta.74>@effect/sql-d1": 4.0.0-rc.112
+  "alchemy@2.0.0-beta.74>@effect/sql-sqlite-do": 4.0.0-rc.112
+  "alchemy@2.0.0-beta.74>@effect/vitest": 4.0.0-rc.112
+patchedDependencies:
+  '@anvia/openai@1.1.4': patches/@anvia__openai@1.1.4.patch
+  '@anvia/studio@1.2.4': patches/@anvia__studio@1.2.4.patch
